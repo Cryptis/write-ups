@@ -75,7 +75,7 @@ We can already notice a ```cmp``` at *0x00400675* which branch after the call of
 
 Thus, the important part of the main function is located between the offsets *0x00400696* and *0x004006a4*. This block prepares the stack and call the function **mmm**. Now, we have to print this function :
 
-```
+```nasm
 [0x00400570]> pdf @ sym.mmm
 / (fcn) sym.mmm 29
 |   sym.mmm ();
@@ -95,7 +95,7 @@ Thus, the important part of the main function is located between the offsets *0x
 
 Again, the function doesn't seem to do anything except the call of another function. Here, we just have to continue the program exploration by going to each new called function :
 
-```
+```nasm
 [0x00400570]> pdf @ sym.you
 / (fcn) sym.you 29
 |   sym.you ();
@@ -219,7 +219,7 @@ Again, the function doesn't seem to do anything except the call of another funct
 
 By looking in the ```my``` function, we notice the use of the string "Tr4laLa!!!" at *0x00400798*. You have here a beautiful example of the French sense of humor ;) : **"mmm you touch my Tr4laLa!!!"**.
 
-This function seems to compare the input flag with the string "Tr4laLa!!!", but many operation are made on the input before the comparison. The ```cmp``` at *0x00400728* after the ```strlen``` call could be a way to skip those operation ? 
+This function seems to compare the input flag with the string "Tr4laLa!!!", but many operation are made on the input before the comparison. The ```cmp``` at *0x00400728* after the ```strlen``` call could be a way to skip those operation ?
 
 Anyway, the size of the function is more than 10 instructions and it is clearly too much for our laziness... It's time to summon [IDA](https://www.hex-rays.com/products/ida/) for the rescue !
 
