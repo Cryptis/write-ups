@@ -24,7 +24,7 @@ Try again :(
 
 As often, the program expects the flag as argument and display a message depending on it's value.
 
-We start reversing with the [radare2](teamcryptis@debian:/var/ctf/NDH XV/reverse/$) tool :
+We start reversing with the [radare2](https://github.com/radare/radare2) tool :
 
 ```nasm
 teamcryptis@debian:/var/ctf/NDH XV/reverse/$ r2 step1.bin
@@ -71,9 +71,9 @@ sym.imp.__libc_start_main   sym.imp.strcmp
 [0x00400570]>
 ```
 
-We can already notice a ```cmp``` at *0x00400675* which branch after the call of ```printf```. It compares the integer constant 2 with the first main function parameter (```argc```). This block must be the check on the command line argument count (which previously printed the program usage).
+We can already notice a ```cmp``` at **0x00400675** which branch after the call of ```printf```. It compares the integer constant 2 with the first main function parameter (```argc```). This block must be the check on the command line argument count (which previously printed the program usage).
 
-Thus, the important part of the main function is located between the offsets *0x00400696* and *0x004006a4*. This block prepares the stack and call the function **mmm**. Now, we have to print this function :
+Thus, the important part of the main function is located between the offsets **0x00400696** and *0*x004006a4**. This block prepares the stack and call the function ```mmm```. Now, we have to print this function :
 
 ```nasm
 [0x00400570]> pdf @ sym.mmm
@@ -217,13 +217,13 @@ Again, the function doesn't seem to do anything except the call of another funct
 
 4 functions are successively called : ```mmm```, ```you```, ```touch```, ```my```, the last one being clearly more complex than the previous ones.
 
-By looking in the ```my``` function, we notice the use of the string "Tr4laLa!!!" at *0x00400798*. You have here a beautiful example of the French sense of humor ;) : **"mmm you touch my Tr4laLa!!!"**.
+By looking in the ```my``` function, we notice the use of the string "Tr4laLa!!!" at **0x00400798**. You have here a beautiful example of the French sense of humor ;) : *"mmm you touch my Tr4laLa!!!"*.
 
-This function seems to compare the input flag with the string "Tr4laLa!!!", but many operation are made on the input before the comparison. The ```cmp``` at *0x00400728* after the ```strlen``` call could be a way to skip those operation ?
+This function seems to compare the input flag with the string "Tr4laLa!!!", but many operation are made on the input before the comparison. The ```cmp``` at **0x00400728** after the ```strlen``` call could be a way to skip those operation ?
 
 Anyway, the size of the function is more than 10 instructions and it is clearly too much for our laziness... It's time to summon [IDA](https://www.hex-rays.com/products/ida/) for the rescue !
 
-1 minute too launch the Windows Virtual Machine, another minute to start the completly legal version of IDA Pro and we are. Here is the C pseudo-code of the function ```my``` given by IDA :
+1 minute too launch the Windows Virtual Machine, another minute to start the completely legal version of IDA Pro and we are. Here is the C pseudo-code of the function ```my``` given by IDA :
 
 TODO() ...
 
