@@ -7,7 +7,6 @@
 
 > Can you... Reverse it ? Analyse it ? Calculate it ? Keygen it ? Modify it ? Enjoy yourself :)
 > This challenge is separated in four steps with four separate flags to guide you.
-
 > Challenge : [https://quals.nuitduhack.com/challenges/quals-ndh2k17/matriochka-step-1/](https://quals.nuitduhack.com/challenges/quals-ndh2k17/matriochka-step-1/)
 
 ## Write-up
@@ -73,7 +72,7 @@ sym.imp.__libc_start_main   sym.imp.strcmp
 
 We can already notice a ```cmp``` at **0x00400675** which branch after the call of ```printf```. It compares the integer constant 2 with the first main function parameter (```argc```). This block must be the check on the command line argument count (which previously printed the program usage).
 
-Thus, the important part of the main function is located between the offsets **0x00400696** and *0*x004006a4**. This block prepares the stack and call the function ```mmm```. Now, we have to print this function :
+Thus, the important part of the main function is located between the offsets **0x00400696** and **0x004006a4**. This block prepares the stack and call the function ```mmm```. Now, we have to print this function :
 
 ```nasm
 [0x00400570]> pdf @ sym.mmm
