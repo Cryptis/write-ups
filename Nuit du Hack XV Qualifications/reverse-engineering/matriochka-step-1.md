@@ -223,9 +223,91 @@ This function seems to compare the input flag with the string "Tr4laLa!!!", but 
 
 Anyway, the size of the function is more than 10 instructions and it is clearly too much for our laziness... It's time to summon [IDA](https://www.hex-rays.com/products/ida/) for the rescue !
 
-1 minute too launch the Windows Virtual Machine, another minute to start the completely legal version of IDA Pro and we are. Here is the C pseudo-code of the function ```my``` given by IDA :
+1 minute too launch the Windows Virtual Machine, another minute to start the completely legal version of IDA Pro and we are. The following is the C pseudo-code of the ```my``` given by IDA (please note that it's a 64 bit binary, you have to use the ```idaq64``` launcher) :
 
-TODO() ...
+```
+unsigned __int64 __fastcall my(const char *a1)
+{
+  char v1; // ST17_1@3
+  unsigned __int64 v3; // [sp+18h] [bp-18h]@1
+  signed __int64 v4; // [sp+20h] [bp-10h]@2
+  unsigned __int64 v5; // [sp+28h] [bp-8h]@2
+  unsigned __int64 i; // [sp+28h] [bp-8h]@6
+
+  v3 = strlen(a1);
+  if ( v3 > 1 )
+  {
+    v5 = 0LL;
+    v4 = v3 - 1;
+    while ( v3 >> 1 > v5 )
+    {
+      v1 = a1[v5];
+      a1[v5] = a1[v4];
+      a1[v4] = v1;
+      ++v5;
+      --v4;
+    }
+  }
+  if ( !strcmp(a1, "Tr4laLa!!!") )
+  {
+    puts("Well done :)");
+    for ( i = 0LL; i <= 0x33D9F; ++i )
+      fputc((char)(*(_BYTE *)(i + 4196608) ^ a1[i % v3] ^ 0x30), _bss_start);
+  }
+  else
+  {
+    puts("Try again :(");
+  }
+  return v3;
+}
+```
+
+The part of the code situated before the condition (```!strcmp(a1, "Tr4laLa!!!")```) correspond to the operations on the input string. We could read this pseudo-code and try to understand what is the actual effect on the string ```v1```. However, we will first rewrite this code into a valid C program and run it on different string in order to try to understand it.
+
+Few modifications are needed to obtain a compilable C code. The loop inside the if condition can be confusing and is not needed to our tests and can thus be safely removed. You can find the final C source code used [here](main.c).
+
+Next, we compile and execute this code and make try with some strings :
+
+```
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ gcc main.c
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./a.out
+Enter the string : test
+tset   Try again :(
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./a.out
+Enter the string : a_string
+gnirts_a   Try again :(
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./a.out
+Enter the string : Nuit_du_hack_2017
+7102_kcah_ud_tiuN   Try again :(
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./a.out
+Enter the string : Tr4laLa!!!
+!!!aLal4rT   Try again :(
+```
+
+This function seems to be a string-reverse function. As the input is compared with the string *"Tr4laLa!!!"*, we will simply try the reverse : *"!!!aLal4rT"* :
+
+```teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step1.bin !!!aLal4rT
+bash: !aLal4rT: event not found
+```
+OOPS ! My bad... the '!' symbol have to be escaped :
+
+```
+./step1.bin \!\!\!aLal4rT
+Well done :)
+```
+
+Well played, the flag i s **!!!aLal4rT**.
+
+---
+
+Note that if when the correct flag is passed to the program (i.e. ```./step1.bin \!\!\!aLal4rT```), many symbols are printed to the standard output. This is because the program create the next challenge (matriochka-step2) when the correct flag is given. This operation is done with the loop which was discarded in our C program :
+
+```
+for ( i = 0LL; i <= 0x33D9F; ++i )
+  fputc((char)(*(_BYTE *)(i + 4196608) ^ a1[i % v3] ^ 0x30), _bss_start);
+```
+
+
 
 ## Other write-ups and resources
 
