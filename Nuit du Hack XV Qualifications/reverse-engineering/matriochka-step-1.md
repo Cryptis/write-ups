@@ -292,7 +292,7 @@ bash: !aLal4rT: event not found
 OOPS ! My bad... the '!' symbol have to be escaped :
 
 ```
-./step1.bin \!\!\!aLal4rT
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step1.bin \!\!\!aLal4rT
 Well done :)
 ```
 
@@ -300,13 +300,22 @@ Well played, the flag i s **!!!aLal4rT**.
 
 ---
 
-Note that if when the correct flag is passed to the program (i.e. ```./step1.bin \!\!\!aLal4rT```), many symbols are printed to the standard output. This is because the program create the next challenge (matriochka-step2) when the correct flag is given. This operation is done with the loop which was discarded in our C program :
+Note that if when the correct flag is passed to the program (i.e. ```./step1.bin \!\!\!aLal4rT```), many symbols are printed to the standard output. This is because the program display the next challenge (matriochka-step2) on **stderr** when the correct flag is given. This operation is done with the loop which was discarded in our C program :
 
 ```
 for ( i = 0LL; i <= 0x33D9F; ++i )
   fputc((char)(*(_BYTE *)(i + 4196608) ^ a1[i % v3] ^ 0x30), _bss_start);
 ```
+To create the second challenge executable, just redirect the **stderr** output to a file (you can find the second challenge executable [here](step2.bin)):
 
+```
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step1.bin \!\!\!aLal4rT 2> step2.bin
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ chmod +x step2.bin
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step2.bin
+Usage: ./step2.bin <pass>
+```
+
+Here we go, again ! ;)
 
 
 ## Other write-ups and resources
