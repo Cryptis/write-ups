@@ -225,7 +225,7 @@ Anyway, the size of the function is more than 10 instructions and it is clearly 
 
 1 minute too launch the Windows Virtual Machine, another minute to start the completely legal version of IDA Pro and we are. The following is the C pseudo-code of the ```my``` given by IDA (please note that it's a 64 bit binary, you have to use the ```idaq64``` launcher) :
 
-```
+```c++
 unsigned __int64 __fastcall my(const char *a1)
 {
   char v1; // ST17_1@3
