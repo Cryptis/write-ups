@@ -1,4 +1,4 @@
-# LOLILOL CTF 2017 : task-name
+# Nuit du Hack XI Qualifications : matriochka step-1
 
 **Category:** Reverse
 **Points:** 35
@@ -11,7 +11,7 @@
 
 ## Write-up
 
-The challenge only consist in one binary executable file : [step1](step1.bin). Let's execute this !
+The challenge only consist in one binary executable file : [step1.bin](step1.bin). Let's execute this !
 
 ```
 teamcryptis@debian:/var/ctf/NDH XV/reverse/$ chmod +x step1.bin
@@ -285,7 +285,8 @@ Enter the string : Tr4laLa!!!
 
 This function seems to be a string-reverse function. As the input is compared with the string *"Tr4laLa!!!"*, we will simply try the reverse : *"!!!aLal4rT"* :
 
-```teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step1.bin !!!aLal4rT
+```
+teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step1.bin !!!aLal4rT
 bash: !aLal4rT: event not found
 ```
 OOPS ! My bad... the '!' symbol have to be escaped :
@@ -295,11 +296,11 @@ teamcryptis@debian:/var/ctf/NDH XV/reverse/$ ./step1.bin \!\!\!aLal4rT
 Well done :)
 ```
 
-Well played, the flag i s **!!!aLal4rT**.
+Well played, the flag is **!!!aLal4rT**.
 
 ---
 
-Note that if when the correct flag is passed to the program (i.e. ```./step1.bin \!\!\!aLal4rT```), many symbols are printed to the standard output. This is because the program display the next challenge (matriochka-step2) on **stderr** when the correct flag is given. This operation is done with the loop which was discarded in our C program :
+Note that when the correct flag is passed to the program (i.e. ```./step1.bin \!\!\!aLal4rT```), many symbols are printed to the standard output. This is because the program display the next challenge (matriochka-step2) on **stderr** when the correct flag is given. This operation is done with the loop which was discarded in our C program :
 
 ```
 for ( i = 0LL; i <= 0x33D9F; ++i )
@@ -319,5 +320,4 @@ Here we go, again ! ;)
 
 ## Other write-ups and resources
 
-* [res1](linkres1)
-* [res2](linkres2)
+No other resource for now.
