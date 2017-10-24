@@ -39,7 +39,7 @@ By using [RSACtfTool](https://github.com/Ganapati/RsaCtfTool), we are able to fa
 
 ```shell
 $ git clone https://github.com/Ganapati/RsaCtfTool && cd RsaCtfTool
-$ ./RsaCtfTool.py --publickey ../publickey.pem --privatekey > ../privatekey.pem
+$ ./RsaCtfTool.py --publickey ../publickey.pem --private > ../privatekey.pem
 $ cd ..
 $ cat message | base64 -d > mess.bin
 $ openssl rsautl -decrypt -in mess.bin -inkey privatekey.pem
