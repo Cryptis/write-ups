@@ -6,7 +6,7 @@ The goal was, of course, to decrypt the message.
 
 ## The challenge
 
-We're given a what we believe to be an RSA public key. After pasting the key in a file, we try to view its contents usin OpenSSL:
+We're given what we believe to be an RSA public key. After pasting the key in a file, we try to view its contents using OpenSSL:
 
 ```shell
 $ openssl rsa -pubin -in publickey.pem -text
